@@ -72,6 +72,8 @@ menus:
   purePermissionButton: Button Permission
   purePermissionButtonRouter: Route return button permission
   purePermissionButtonLogin: Login interface return button permission
+  form: Form
+  formBasic: Basic Form
 status:
   pureLoad: Loading...
   pureMessage: Message
