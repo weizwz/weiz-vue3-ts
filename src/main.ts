@@ -19,6 +19,9 @@ import "./style/index.scss";
 // 一定要在main.ts中导入tailwind.css，防止vite每次hmr都会请求src/style/index.scss整体css文件导致热更新慢的问题
 import "./style/tailwind.css";
 import "element-plus/dist/index.css";
+// 导入plus-pro-components 及其样式
+import PlusProComponents from "plus-pro-components";
+import "plus-pro-components/index.css";
 // 导入字体图标
 import "./assets/iconfont/iconfont.js";
 import "./assets/iconfont/iconfont.css";
@@ -52,6 +55,8 @@ import "tippy.js/dist/tippy.css";
 import "tippy.js/themes/light.css";
 import VueTippy from "vue-tippy";
 app.use(VueTippy);
+// 使用
+app.use(PlusProComponents);
 
 getPlatformConfig(app).then(async config => {
   setupStore(app);
