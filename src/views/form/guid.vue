@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import myImg from "@/assets/img/20240912_171725.png";
+
 defineOptions({
   name: "FormGuid"
 });
+
+const imgList = [myImg];
 </script>
 
 <template>
@@ -32,9 +36,22 @@ defineOptions({
           target="_blank"
           :underline="false"
           href="https://plus-pro-components.com/guide/quickstart.html"
-          >官方文档
-        </el-link>
+          >官方文档 </el-link
+        >。
       </p>
+    </el-space>
+    <el-divider />
+    <h3>示例</h3>
+    <el-divider />
+    <el-space wrap direction="vertical" alignment="start" :size="20">
+      <p>我们以表单为例，揭示此组件的基本使用原理：</p>
+      <el-image
+        :src="myImg"
+        style="width: 600px"
+        :preview-src-list="imgList"
+        :initial-index="0"
+        fit="cover"
+      />
     </el-space>
   </el-card>
 </template>
