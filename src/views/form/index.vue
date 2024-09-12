@@ -12,7 +12,7 @@ const state = ref<FieldValues>({
   status: "",
   name: "",
   rate: 0,
-  progress: 0,
+  progress: "",
   switch: true,
   time: new Date().toString()
 });
@@ -69,11 +69,6 @@ const columns: PlusColumn[] = [
         label: "解决中",
         value: "2",
         color: "yellow"
-      },
-      {
-        label: "失败",
-        value: "3",
-        color: "red"
       }
     ]
   },
@@ -196,6 +191,10 @@ const columns: PlusColumn[] = [
       {
         label: "远方",
         value: "1"
+      },
+      {
+        label: "苟且",
+        value: "2"
       }
     ]
   },

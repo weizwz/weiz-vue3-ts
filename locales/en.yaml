@@ -72,8 +72,10 @@ menus:
   purePermissionButton: Button Permission
   purePermissionButtonRouter: Route return button permission
   purePermissionButtonLogin: Login interface return button permission
-  form: Form
+  formTemplate: Form Template
+  formGuid: Use Guide
   formBasic: Basic Form
+  formComplex: Basic Complex
 status:
   pureLoad: Loading...
   pureMessage: Message
