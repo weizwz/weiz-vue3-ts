@@ -6,6 +6,8 @@
 
 技术：vite5 + vue3 + ts + pina + Element-Plus + Tailwindcss
 
+预览 [weiz-vue3-ts](https://weizwz.com/weiz-vue3-ts/)
+
 ## 提交规范
 
 - feat: 增加新功能
