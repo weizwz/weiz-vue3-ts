@@ -75,6 +75,7 @@ menus:
   formTemplate: 表单模板
   formGuid: 使用向导
   formBasic: 基础表单
+  formCommon: 常用表单
   formComplex: 复杂表单
 status:
   pureLoad: 加载中...

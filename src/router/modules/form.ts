@@ -27,6 +27,14 @@ export default {
       }
     },
     {
+      path: "/form/common",
+      name: "form_common",
+      component: () => import("@/views/form/common.vue"),
+      meta: {
+        title: $t("menus.formCommon")
+      }
+    },
+    {
       path: "/form/complex",
       name: "form_complex",
       component: () => import("@/views/form/complex.vue"),

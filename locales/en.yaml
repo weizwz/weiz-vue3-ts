@@ -75,6 +75,7 @@ menus:
   formTemplate: Form Template
   formGuid: Use Guide
   formBasic: Basic Form
+  formCommon: Common Form
   formComplex: Basic Complex
 status:
   pureLoad: Loading...

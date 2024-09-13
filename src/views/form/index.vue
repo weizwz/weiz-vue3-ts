@@ -241,7 +241,7 @@ const handleReset = () => {
   <el-card>
     <template #header>
       <div class="font-medium">
-        基础表单，配置项都是固定数据，例如下拉、单选多选、日期时间等
+        基础表单，配置项都是固定数据，例如下拉选项、单选多选、日期时间等
       </div>
       <el-link
         class="mt-2"
