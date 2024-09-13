@@ -1,10 +1,12 @@
-<h1>vue3+ts 常用界面模板</h1>
+<h1>vue3常用模板</h1>
 
 ## 介绍
 
 框架基于 [Pure-Admin-Thin 精简版](https://pure-admin.github.io/pure-admin-doc/pages/introduction/)。
 
 技术：vite5 + vue3 + ts + pina + Element-Plus + Tailwindcss
+
+功能：展示vue3+ts常用模板和方法，方便复制和粘贴
 
 预览 [weiz-vue3-ts](https://weizwz.com/weiz-vue3-ts/)
 

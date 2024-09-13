@@ -23,7 +23,7 @@ const themeColors = {
     subMenuActiveText: "#fff",
     menuBg: "#001529",
     menuHover: "rgb(64 145 247 / 15%)",
-    subMenuBg: "#0f0303",
+    subMenuBg: "rgba(15 3 3 / 50%)",
     subMenuActiveBg: "#4091f7",
     menuText: "rgb(254 254 254 / 65%)",
     sidebarLogo: "#002140",
