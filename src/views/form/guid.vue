@@ -15,7 +15,7 @@ const imgList = [];
     <el-space wrap direction="vertical" alignment="start" :size="20">
       <p>表单模板使用了 element-plus 的表单组件</p>
       <p>
-        具体使用和API请直接查看
+        具体使用和api请查看
         <el-link
           type="primary"
           target="_blank"
@@ -29,7 +29,6 @@ const imgList = [];
     <h3>示例</h3>
     <el-divider />
     <el-space wrap direction="vertical" alignment="start" :size="20">
-      <p>我们以表单为例，揭示此组件的基本使用原理：</p>
       <el-image
         src=""
         style="width: 600px"
