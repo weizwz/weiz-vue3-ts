@@ -10,7 +10,7 @@ export type TypeResult = {
   data: TypeOption[];
 };
 
-/** 登录 */
-export const getTypeOptionsAPI = (data?: object) => {
-  return http.request<TypeResult>("post", "/type/list", { data });
+/** 下拉选项 */
+export const getTypeOptionsAPI = () => {
+  return http.request<TypeResult>("post", "/type/list");
 };

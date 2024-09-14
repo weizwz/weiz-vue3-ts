@@ -17,9 +17,8 @@
       :model="ruleForm"
       :rules="rules"
       label-position="right"
-      label-width="120px"
+      label-width="80px"
       status-icon
-      style="margin-right: 40px"
     >
       <el-row :gutter="20">
         <el-col :span="12">
@@ -29,12 +28,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="项目编码" prop="code">
-            <el-input
-              v-model="ruleForm.code"
-              placeholder="请输入项目编码"
-              maxlength="12"
-              show-word-limit
-            />
+            <el-input v-model="ruleForm.code" placeholder="请输入项目编码" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -52,33 +46,16 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="创建时间" required>
-            <el-row :gutter="0">
-              <el-col :span="11">
-                <el-form-item prop="createDate">
-                  <el-date-picker
-                    v-model="ruleForm.createDate"
-                    type="date"
-                    aria-label="请选择日期"
-                    placeholder="请选择日期"
-                    style="width: 100%"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col class="text-center" :span="2">
-                <span class="text-gray-500">-</span>
-              </el-col>
-              <el-col :span="11">
-                <el-form-item prop="createTime">
-                  <el-time-picker
-                    v-model="ruleForm.createTime"
-                    aria-label="请选择时间"
-                    placeholder="请选择时间"
-                    style="width: 100%"
-                  />
-                </el-form-item>
-              </el-col>
-            </el-row>
+          <el-form-item label="创建时间" prop="createDate">
+            <el-date-picker
+              v-model="ruleForm.createDate"
+              type="datetime"
+              aria-label="请选择创建时间"
+              placeholder="请选择创建时间"
+              format="YYYY/MM/DD HH:mm:ss"
+              value-format="YYYY-MM-DD HH:mm:ss"
+              style="width: 100%"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -88,7 +65,8 @@
               type="datetimerange"
               start-placeholder="活动开始时间"
               end-placeholder="活动结束时间"
-              format="YYYY-MM-DD HH:mm:ss"
+              format="YYYY/MM/DD HH:mm:ss"
+              value-format="YYYY-MM-DD HH:mm:ss"
               date-format="YYYY/MM/DD"
               time-format="hh:mm:ss"
             />
@@ -155,67 +133,50 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { ElMessage, type FormInstance, type FormRules } from "element-plus";
+import { ProjectDTO, ProjectAPI } from "@/api/project";
 
 defineOptions({
   name: "FormBasic"
 });
 
-interface RuleForm {
-  name: string;
-  code: string;
-  startUp: boolean;
-  status: string;
-  createDate: string;
-  createTime: string;
-  activeTime: string;
-  funds: number | undefined;
-  funding: string;
-  type: string[];
-  client: string;
-  remark: string;
-}
-
 const ruleFormRef = ref<FormInstance>();
-const ruleForm = reactive<RuleForm>({
+const ruleForm = reactive<ProjectDTO>({
   name: "",
   code: "",
-  startUp: true,
-  status: "",
+  startUp: false,
+  status: undefined,
   createDate: "",
-  createTime: "",
-  activeTime: "",
+  activeTime: [],
   funds: undefined,
   funding: "",
   type: [],
-  client: "user",
+  client: "",
   remark: ""
 });
 
 const fundingOptions = ["活动专项金", "部门出资", "公司拨款"];
 
-const rules = reactive<FormRules<RuleForm>>({
+//#start 表单校验
+const validateCode = (rule: any, value: any, callback: any) => {
+  const codeRule = /^[0-9a-zA-Z_]{1,}$/;
+  if (codeRule.test(value) === false) {
+    return callback(new Error("只能输入字母和数字"));
+  }
+  return callback();
+};
+const rules = reactive<FormRules<ProjectDTO>>({
   name: [
     { required: true, message: "请输入项目名称", trigger: "blur" },
-    { min: 3, max: 20, message: "项目名称长度在3-20之间", trigger: "blur" }
+    { min: 5, max: 20, message: "项目名称长度在5-20之间", trigger: "blur" }
   ],
-  code: [{ required: true, message: "请输入项目编码", trigger: "blur" }],
+  code: [
+    { required: true, message: "请输入项目编码", trigger: "blur" },
+    { required: true, validator: validateCode, trigger: "blur" }
+  ],
   startUp: [{ required: true, message: "请选择是否立项", trigger: "change" }],
   status: [{ required: true, message: "请选择状态", trigger: "change" }],
   createDate: [
-    {
-      type: "date",
-      required: true,
-      message: "请选择日期",
-      trigger: "change"
-    }
-  ],
-  createTime: [
-    {
-      type: "date",
-      required: true,
-      message: "请选择时间",
-      trigger: "change"
-    }
+    { required: true, message: "请选择创建时间", trigger: "change" }
   ],
   activeTime: [
     { required: true, message: "请选择活动时间", trigger: "change" }
@@ -223,19 +184,22 @@ const rules = reactive<FormRules<RuleForm>>({
   funds: [{ required: true, message: "请输入立项金额", trigger: "change" }],
   funding: [{ required: true, message: "请选择资金来源", trigger: "change" }]
 });
+//#end
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(valid => {
     if (valid) {
-      ElMessage({
-        message: "提交成功",
-        type: "success"
+      ProjectAPI.submit(ruleForm).then(res => {
+        const tipsType = res.success ? "success" : "error";
+        ElMessage({
+          message: res.data,
+          type: tipsType
+        });
       });
     }
   });
 };
-
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();

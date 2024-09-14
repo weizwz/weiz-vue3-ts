@@ -18,9 +18,8 @@
       :model="ruleForm"
       :rules="rules"
       label-position="right"
-      label-width="120px"
+      label-width="80px"
       status-icon
-      style="margin-right: 40px"
     >
       <el-row :gutter="20">
         <el-col :span="12">
@@ -30,12 +29,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="项目编码" prop="code">
-            <el-input
-              v-model="ruleForm.code"
-              placeholder="请输入项目编码"
-              maxlength="12"
-              show-word-limit
-            />
+            <el-input v-model="ruleForm.code" placeholder="请输入项目编码" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -109,6 +103,7 @@
 import { onMounted, reactive, ref } from "vue";
 import { ElMessage, type FormInstance, type FormRules } from "element-plus";
 import { getTypeOptionsAPI, TypeOption } from "@/api/selectOptions";
+import { ProjectDTO, ProjectAPI } from "@/api/project";
 
 defineOptions({
   name: "FormCommon"
@@ -126,41 +121,55 @@ interface RuleForm {
 
 const typeList = ref<TypeOption[]>();
 const ruleFormRef = ref<FormInstance>();
-const ruleForm = reactive<RuleForm>({
+const ruleForm = reactive<ProjectDTO>({
   name: "",
   code: "",
-  status: "",
-  activeTime: "",
+  status: undefined,
+  activeTime: [],
   funds: undefined,
   type: [],
   remark: ""
 });
 
-const rules = reactive<FormRules<RuleForm>>({
+//#start 表单校验
+const validateCode = (rule: any, value: any, callback: any) => {
+  const codeRule = /^[0-9a-zA-Z_]{1,}$/;
+  if (codeRule.test(value) === false) {
+    return callback(new Error("只能输入字母和数字"));
+  }
+  return callback();
+};
+const rules = reactive<FormRules<ProjectDTO>>({
   name: [
     { required: true, message: "请输入项目名称", trigger: "blur" },
     { min: 3, max: 20, message: "项目名称长度在3-20之间", trigger: "blur" }
   ],
-  code: [{ required: true, message: "请输入项目编码", trigger: "blur" }],
+  code: [
+    { required: true, message: "请输入项目编码", trigger: "blur" },
+    { required: true, validator: validateCode, trigger: "blur" }
+  ],
   status: [{ required: true, message: "请选择状态", trigger: "change" }],
   activeTime: [
     { required: true, message: "请选择活动时间", trigger: "change" }
   ],
   funds: [{ required: true, message: "请输入立项金额", trigger: "change" }]
 });
+//#end
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(valid => {
     if (valid) {
-      ElMessage({
-        message: "提交成功",
-        type: "success"
+      ProjectAPI.submit(ruleForm).then(res => {
+        const tipsType = res.success ? "success" : "error";
+        ElMessage({
+          message: res.data,
+          type: tipsType
+        });
       });
     }
   });
 };
-
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
