@@ -29,7 +29,7 @@ export default {
     {
       path: "/form/complex",
       name: "form_complex",
-      component: () => import("@/views/form/complex.vue"),
+      component: () => import("@/views/form/complex/index.vue"),
       meta: {
         title: $t("menus.formComplex")
       }
