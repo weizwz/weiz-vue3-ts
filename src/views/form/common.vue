@@ -2,8 +2,7 @@
   <el-card>
     <template #header>
       <div class="font-medium">
-        常用表单，配置项有固定数据，也有动态数据，例如一些下拉数据、单选多选项等需要异步获取后展示，
-        可打开控制台查看请求情况。
+        常用表单，配置项有固定数据，也有动态数据，例如一些下拉数据、单选多选项等需要异步获取后展示。
       </div>
       <el-link
         class="mt-2"
@@ -36,7 +35,7 @@
           <el-form-item label="项目状态" prop="status">
             <el-select v-model="ruleForm.status" placeholder="请选择项目状态">
               <el-option
-                v-for="item of typeList"
+                v-for="item of statusList"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
@@ -70,10 +69,13 @@
         <el-col :span="12">
           <el-form-item label="项目类型" prop="type">
             <el-checkbox-group v-model="ruleForm.type">
-              <el-checkbox :value="0" name="type"> 线上活动 </el-checkbox>
-              <el-checkbox :value="2" name="type"> 线下活动 </el-checkbox>
-              <el-checkbox :value="3" name="type"> 品牌曝光 </el-checkbox>
-              <el-checkbox :value="1" name="type"> 推广活动 </el-checkbox>
+              <el-checkbox
+                v-for="item of typeList"
+                :key="item.id"
+                :value="item.id"
+                :name="item.name"
+                >{{ item.name }}</el-checkbox
+              >
             </el-checkbox-group>
           </el-form-item>
         </el-col>
@@ -102,24 +104,19 @@
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from "vue";
 import { ElMessage, type FormInstance, type FormRules } from "element-plus";
-import { getTypeOptionsAPI, TypeOption } from "@/api/selectOptions";
+import {
+  getStatusOptionsAPI,
+  getTypeOptionsAPI,
+  SelectOption
+} from "@/api/selectOptions";
 import { ProjectDTO, ProjectAPI } from "@/api/project";
 
 defineOptions({
   name: "FormCommon"
 });
 
-interface RuleForm {
-  name: string;
-  code: string;
-  status: string;
-  activeTime: string;
-  funds: number | undefined;
-  type: string[];
-  remark: string;
-}
-
-const typeList = ref<TypeOption[]>();
+const statusList = ref<SelectOption[]>();
+const typeList = ref<SelectOption[]>();
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive<ProjectDTO>({
   name: "",
@@ -175,6 +172,14 @@ const resetForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields();
 };
 
+//#start 下拉数据
+const getStatusOptions = () => {
+  getStatusOptionsAPI().then(data => {
+    if (data) {
+      statusList.value = data.data;
+    }
+  });
+};
 const getTypeOptions = () => {
   getTypeOptionsAPI().then(data => {
     if (data) {
@@ -182,7 +187,9 @@ const getTypeOptions = () => {
     }
   });
 };
+//#end
 onMounted(() => {
+  getStatusOptions();
   getTypeOptions();
 });
 </script>

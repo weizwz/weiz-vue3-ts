@@ -1,16 +1,20 @@
 import { http } from "@/utils/http";
 
-export type TypeOption = {
+export type SelectOption = {
   id: string;
   name: string;
 };
 
-export type TypeResult = {
+type TypeResult = {
   success: boolean;
-  data: TypeOption[];
+  data: SelectOption[];
 };
 
 /** 下拉选项 */
+export const getStatusOptionsAPI = () => {
+  return http.request<TypeResult>("post", "/status/list");
+};
+
 export const getTypeOptionsAPI = () => {
   return http.request<TypeResult>("post", "/type/list");
 };

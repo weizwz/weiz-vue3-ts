@@ -1,5 +1,6 @@
 import { http } from "@/utils/http";
 
+// 数据交互模型
 export type ProjectDTO = {
   name: string;
   code: string;
@@ -14,7 +15,9 @@ export type ProjectDTO = {
   remark: string;
 };
 
+// 数据展示模型
 export type ProjectVO = {
+  id: string;
   name: string;
   code: string;
   startUp: boolean;
