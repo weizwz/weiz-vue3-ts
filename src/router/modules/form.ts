@@ -2,7 +2,7 @@ import { $t } from "@/plugins/i18n";
 
 export default {
   path: "/form",
-  redirect: "/form/guide",
+  redirect: "/form/index",
   meta: {
     icon: "ep:edit",
     // showLink: false,
@@ -10,14 +10,6 @@ export default {
     rank: 1
   },
   children: [
-    {
-      path: "/form/guide",
-      name: "form_guide",
-      component: () => import("@/views/form/guid.vue"),
-      meta: {
-        title: $t("menus.formGuid")
-      }
-    },
     {
       path: "/form/index",
       name: "form_basic",

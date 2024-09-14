@@ -73,9 +73,8 @@
                 v-for="item of typeList"
                 :key="item.id"
                 :value="item.id"
-                :name="item.name"
-                >{{ item.name }}</el-checkbox
-              >
+                :label="item.name"
+              />
             </el-checkbox-group>
           </el-form-item>
         </el-col>

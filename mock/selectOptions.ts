@@ -45,7 +45,7 @@ export default defineFakeRoute([
             name: "品牌曝光"
           },
           {
-            id: 2,
+            id: 3,
             name: "推广活动"
           }
         ]
