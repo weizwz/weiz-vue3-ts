@@ -27,12 +27,29 @@ export default {
       }
     },
     {
-      path: "/form/complex",
-      name: "form_complex",
-      component: () => import("@/views/form/complex/index.vue"),
+      path: "/form/elements",
+      redirect: "/form/elements/radio",
       meta: {
-        title: $t("menus.formComplex")
-      }
+        title: $t("menus.formElements")
+      },
+      children: [
+        {
+          path: "/form/elements/radio",
+          name: "form_elements_radio",
+          component: () => import("@/views/form/elements/radio.vue"),
+          meta: {
+            title: "单选框"
+          }
+        },
+        {
+          path: "/form/elements/checkbox",
+          name: "form_elements_checkbox",
+          component: () => import("@/views/form/elements/checkbox.vue"),
+          meta: {
+            title: "复选框"
+          }
+        }
+      ]
     }
   ]
 } satisfies RouteConfigsTable;

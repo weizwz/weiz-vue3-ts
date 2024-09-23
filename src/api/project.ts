@@ -2,17 +2,17 @@ import { http } from "@/utils/http";
 
 // 数据交互模型
 export type ProjectDTO = {
-  name: string;
-  code: string;
+  name?: string;
+  code?: string;
   startUp?: boolean;
-  status: number;
+  status?: number;
   createDate?: string;
-  activeTime: string[];
-  funds: number;
+  activeTime?: string[];
+  funds?: number;
   funding?: string;
-  type: string[];
+  type?: string[];
   client?: string;
-  remark: string;
+  remark?: string;
 };
 
 // 数据展示模型

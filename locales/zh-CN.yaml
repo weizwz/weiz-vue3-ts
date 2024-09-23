@@ -76,7 +76,8 @@ menus:
   formGuid: 使用向导
   formBasic: 基础表单
   formCommon: 常用表单
-  formComplex: 复杂表单
+  formComplex: 综合表单
+  formElements: 表单元素
 status:
   pureLoad: 加载中...
   pureMessage: 消息

@@ -77,6 +77,7 @@ menus:
   formBasic: Basic Form
   formCommon: Common Form
   formComplex: Basic Complex
+  formElements: Form Elements
 status:
   pureLoad: Loading...
   pureMessage: Message
