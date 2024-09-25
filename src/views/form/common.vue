@@ -3,7 +3,7 @@
     <template #header>
       <div class="font-medium">
         常用表单，配置项有固定数据，也有动态数据，例如一些下拉数据、单选多选项等需要异步获取后展示；布局方面，常和
-        el-row 配合，可设置多列显示。
+        el-row 配合，可设置多列显示；同时提交按钮设置loading状态，避免多次提交。
       </div>
       <el-link
         class="mt-2"
@@ -92,7 +92,11 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button type="primary" @click="submitForm(ruleFormRef)">
+        <el-button
+          type="primary"
+          :loading="ruleFormSubmitLoading"
+          @click="submitForm(ruleFormRef)"
+        >
           提交
         </el-button>
         <el-button @click="resetForm(ruleFormRef)">重置</el-button>
@@ -127,6 +131,7 @@ const ruleForm = reactive<ProjectDTO>({
   type: [],
   remark: ""
 });
+const ruleFormSubmitLoading = ref(false);
 
 //#start 表单校验
 const validateCode = (rule: any, value: any, callback: any) => {
@@ -157,13 +162,23 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(valid => {
     if (valid) {
-      ProjectAPI.submit(ruleForm).then(res => {
-        const tipsType = res.success ? "success" : "error";
-        ElMessage({
-          message: res.data,
-          type: tipsType
+      ruleFormSubmitLoading.value = true;
+      ProjectAPI.submit(ruleForm)
+        .then(res => {
+          const tipsType = res.success ? "success" : "error";
+          ruleFormSubmitLoading.value = false;
+          ElMessage({
+            message: res.data,
+            type: tipsType
+          });
+        })
+        .catch(res => {
+          ruleFormSubmitLoading.value = false;
+          ElMessage({
+            message: "提交失败，请重试",
+            type: "error"
+          });
         });
-      });
     }
   });
 };
