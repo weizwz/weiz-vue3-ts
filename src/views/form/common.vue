@@ -132,14 +132,14 @@ const ruleForm = reactive<ProjectDTO>({
 const validateCode = (rule: any, value: any, callback: any) => {
   const codeRule = /^[0-9a-zA-Z_]{1,}$/;
   if (codeRule.test(value) === false) {
-    return callback(new Error("只能输入字母和数字"));
+    return callback(new Error("项目编码只支持字母和数字"));
   }
   return callback();
 };
 const rules = reactive<FormRules<ProjectDTO>>({
   name: [
     { required: true, message: "请输入项目名称", trigger: "blur" },
-    { min: 3, max: 20, message: "项目名称长度在3-20之间", trigger: "blur" }
+    { min: 5, max: 20, message: "项目名称长度在5-20之间", trigger: "blur" }
   ],
   code: [
     { required: true, message: "请输入项目编码", trigger: "blur" },
