@@ -19,7 +19,7 @@
       status-icon
     >
       <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item label="基础单选" prop="code">
             <el-radio-group v-model="ruleForm.code">
               <el-radio value="1">选项1</el-radio>
@@ -30,7 +30,7 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item label="按钮样式" prop="status">
             <el-radio-group v-model="ruleForm.status">
               <el-radio-button
@@ -42,11 +42,11 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item label="边框样式" prop="createDate">
             <el-radio-group v-model="ruleForm.createDate">
               <el-radio
-                v-for="item of 5"
+                v-for="item of 6"
                 :key="item"
                 :label="'选项' + item"
                 :value="item"
@@ -55,7 +55,7 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item label="动态选项" prop="client">
             <el-radio-group v-model="ruleForm.client">
               <el-radio
@@ -67,19 +67,19 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item label="联动选项来源" prop="funds">
             <el-radio-group v-model="ruleForm.funds" @change="changeFounds">
               <el-radio-button
                 v-for="item of 6"
                 :key="item"
-                :label="'选项' + item"
+                :label="'联动选项' + item"
                 :value="item"
               />
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item label="联动选项结果" prop="funding">
             <el-radio-group v-model="ruleForm.funding">
               <el-radio
@@ -123,18 +123,34 @@ const ruleForm = reactive<ProjectDTO>({
 });
 
 //#start 表单校验
-const validateCode = (rule: any, value: any, callback: any) => {
-  const codeRule = /^[0-9a-zA-Z_]{1,}$/;
-  if (codeRule.test(value) === false) {
-    return callback(new Error("只能输入字母和数字"));
-  }
-  return callback();
-};
 const rules = reactive<FormRules<ProjectDTO>>({
   code: [{ required: true, message: "请选择基础单选", trigger: "change" }],
   client: [{ required: true, message: "请选择动态选项", trigger: "change" }],
-  funding: [{ required: true, message: "联动选项结果", trigger: "change" }]
+  funding: [
+    { required: true, message: "请选择联动选项结果", trigger: "change" }
+  ]
 });
+//#end
+
+//#start 动态选项
+const statusList = ref<SelectOption[]>();
+const getStatusOptions = () => {
+  getStatusOptionsAPI().then(data => {
+    if (data) {
+      statusList.value = data.data;
+    }
+  });
+};
+//#end
+
+//#start 联动选项
+let fundingList = ref<string[]>([
+  "【联动选项" + ruleForm.funds + "】的联动结果"
+]);
+const changeFounds = value => {
+  ruleForm.funding = "";
+  fundingList.value = ["【联动选项" + value + "】的联动结果"];
+};
 //#end
 
 const submitForm = async (formEl: FormInstance | undefined) => {
@@ -154,23 +170,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-};
-
-//#start 动态选项
-const statusList = ref<SelectOption[]>();
-const getStatusOptions = () => {
-  getStatusOptionsAPI().then(data => {
-    if (data) {
-      statusList.value = data.data;
-    }
-  });
-};
-//#end
-
-//#start 联动选项
-const fundingList = ref<string[]>(["选项" + ruleForm.funds + "的联动"]);
-const changeFounds = value => {
-  fundingList.value = ["选项" + value + "的联动"];
+  changeFounds(ruleForm.funds);
 };
 
 onMounted(() => {
