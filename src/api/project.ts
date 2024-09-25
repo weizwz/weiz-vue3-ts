@@ -12,6 +12,9 @@ export type ProjectDTO = {
   funding?: string;
   type?: string[];
   client?: string;
+  tags?: string[];
+  members?: string[];
+  subject?: string[];
   remark?: string;
 };
 
