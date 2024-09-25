@@ -15,15 +15,79 @@
       :model="ruleForm"
       :rules="rules"
       label-position="right"
-      label-width="80px"
+      label-width="120px"
       status-icon
     >
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="简单单选" prop="client">
+          <el-form-item label="基础单选" prop="code">
+            <el-radio-group v-model="ruleForm.code">
+              <el-radio value="1">选项1</el-radio>
+              <el-radio value="2">选项2</el-radio>
+              <el-radio value="3">选项3</el-radio>
+              <el-radio value="4">选项4</el-radio>
+              <el-radio value="5">选项5</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="按钮样式" prop="status">
+            <el-radio-group v-model="ruleForm.status">
+              <el-radio-button
+                v-for="item of 6"
+                :key="item"
+                :label="'选项' + item"
+                :value="item"
+              />
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="边框样式" prop="createDate">
+            <el-radio-group v-model="ruleForm.createDate">
+              <el-radio
+                v-for="item of 5"
+                :key="item"
+                :label="'选项' + item"
+                :value="item"
+                border
+              />
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="动态选项" prop="client">
             <el-radio-group v-model="ruleForm.client">
-              <el-radio value="company">合作公司</el-radio>
-              <el-radio value="user">产品用户</el-radio>
+              <el-radio
+                v-for="item of statusList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              />
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="联动选项来源" prop="funds">
+            <el-radio-group v-model="ruleForm.funds" @change="changeFounds">
+              <el-radio-button
+                v-for="item of 6"
+                :key="item"
+                :label="'选项' + item"
+                :value="item"
+              />
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="联动选项结果" prop="funding">
+            <el-radio-group v-model="ruleForm.funding">
+              <el-radio
+                v-for="item of fundingList"
+                :key="item"
+                :label="item"
+                :value="item"
+              />
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -39,9 +103,10 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { ElMessage, type FormInstance, type FormRules } from "element-plus";
 import { ProjectDTO, ProjectAPI } from "@/api/project";
+import { getStatusOptionsAPI, SelectOption } from "@/api/selectOptions";
 
 defineOptions({
   name: "FormRadio"
@@ -49,6 +114,11 @@ defineOptions({
 
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive<ProjectDTO>({
+  code: "",
+  status: undefined,
+  createDate: "",
+  funds: 1,
+  funding: "",
   client: ""
 });
 
@@ -61,7 +131,9 @@ const validateCode = (rule: any, value: any, callback: any) => {
   return callback();
 };
 const rules = reactive<FormRules<ProjectDTO>>({
-  client: [{ required: true, message: "请选择目标人群", trigger: "change" }]
+  code: [{ required: true, message: "请选择基础单选", trigger: "change" }],
+  client: [{ required: true, message: "请选择动态选项", trigger: "change" }],
+  funding: [{ required: true, message: "联动选项结果", trigger: "change" }]
 });
 //#end
 
@@ -83,4 +155,25 @@ const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
 };
+
+//#start 动态选项
+const statusList = ref<SelectOption[]>();
+const getStatusOptions = () => {
+  getStatusOptionsAPI().then(data => {
+    if (data) {
+      statusList.value = data.data;
+    }
+  });
+};
+//#end
+
+//#start 联动选项
+const fundingList = ref<string[]>(["选项" + ruleForm.funds + "的联动"]);
+const changeFounds = value => {
+  fundingList.value = ["选项" + value + "的联动"];
+};
+
+onMounted(() => {
+  getStatusOptions();
+});
 </script>

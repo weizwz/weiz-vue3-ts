@@ -8,7 +8,9 @@ export default defineFakeRoute([
     response: ({ body }) => {
       return {
         success: true,
-        data: "提交成功，提交项目为 【" + body.name + "】"
+        data:
+          "提交成功" +
+          (body && body.name ? "，提交项目为 【" + body.name + "】" : "")
       };
     }
   }
