@@ -48,6 +48,14 @@ export default {
           meta: {
             title: "复选框"
           }
+        },
+        {
+          path: "/form/elements/input",
+          name: "form_elements_input",
+          component: () => import("@/views/form/elements/input.vue"),
+          meta: {
+            title: "输入框"
+          }
         }
       ]
     }

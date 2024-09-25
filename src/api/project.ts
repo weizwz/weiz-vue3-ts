@@ -4,15 +4,18 @@ import { http } from "@/utils/http";
 export type ProjectDTO = {
   name?: string;
   code?: string;
+  password?: string;
   startUp?: boolean;
   status?: number;
   createDate?: string;
   activeTime?: string[];
+  city?: string;
   funds?: number;
   funding?: string;
   type?: string[];
   client?: string;
   tags?: string[];
+  owner?: string;
   members?: string[];
   subject?: string[];
   remark?: string;
