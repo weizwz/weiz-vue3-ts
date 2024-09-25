@@ -15,7 +15,7 @@
       :model="ruleForm"
       :rules="rules"
       label-position="right"
-      label-width="120px"
+      label-width="80px"
       status-icon
     >
       <el-row :gutter="20">

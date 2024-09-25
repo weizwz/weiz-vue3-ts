@@ -15,7 +15,7 @@
       :model="ruleForm"
       :rules="rules"
       label-position="right"
-      label-width="120px"
+      label-width="80px"
       status-icon
     >
       <el-row :gutter="20">
@@ -68,7 +68,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="联动选项来源" prop="funds">
+          <el-form-item label="联动选项" prop="funds">
             <el-radio-group v-model="ruleForm.funds" @change="changeFounds">
               <el-radio-button
                 v-for="item of 6"
@@ -80,7 +80,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="联动选项结果" prop="funding">
+          <el-form-item label="联动结果" prop="funding">
             <el-radio-group v-model="ruleForm.funding">
               <el-radio
                 v-for="item of fundingList"
