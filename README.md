@@ -10,6 +10,36 @@
 
 预览 [weiz-vue3-ts](https://weizwz.com/weiz-vue3-ts/)
 
+## mock接口说明
+
+接口定义 [vite-plugin-fake-server](https://github.com/condorheroblog/vite-plugin-fake-server)，参数类型如下：
+
+```ts
+export interface FakeRoute {
+  url: string;
+  method?: HttpMethodType;
+  timeout?: number;
+  statusCode?: number;
+  statusText?: string;
+  headers?: OutgoingHttpHeaders;
+  response?: (
+    processedRequest: ProcessedRequest,
+    req: IncomingMessage,
+    res: ServerResponse
+  ) => any;
+  rawResponse?: (req: IncomingMessage, res: ServerResponse) => void;
+}
+
+export function defineFakeRoute(config: FakeRoute | FakeRoute[]) {
+  return config;
+}
+```
+
+构造参数:
+
+- [faker-js/faker](https://github.com/faker-js/faker)，说明文档 [https://v8.fakerjs.dev/guide/usage.html](https://v8.fakerjs.dev/guide/usage.html)；
+- [Mock.js](https://github.com/nuysoft/Mock)，说明文档 [https://github.com/nuysoft/Mock/wiki/Getting-Started](https://github.com/nuysoft/Mock/wiki/Getting-Started)
+
 ## 提交规范
 
 - feat: 增加新功能
