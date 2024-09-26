@@ -172,11 +172,6 @@ const rules = reactive<FormRules<ProjectDTO>>({
 });
 //#end
 
-const formateCode = value => {
-  value = value.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-  return value;
-};
-
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(valid => {

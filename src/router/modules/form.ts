@@ -56,6 +56,14 @@ export default {
           meta: {
             title: "输入框"
           }
+        },
+        {
+          path: "/form/elements/number",
+          name: "form_elements_number",
+          component: () => import("@/views/form/elements/number.vue"),
+          meta: {
+            title: "数字框"
+          }
         }
       ]
     }
