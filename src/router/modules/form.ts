@@ -64,6 +64,14 @@ export default {
           meta: {
             title: "数字框"
           }
+        },
+        {
+          path: "/form/elements/select",
+          name: "form_elements_select",
+          component: () => import("@/views/form/elements/select.vue"),
+          meta: {
+            title: "选择框"
+          }
         }
       ]
     }

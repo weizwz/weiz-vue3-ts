@@ -1,8 +1,11 @@
 import { http } from "@/utils/http";
+import type { TagProps } from "element-plus";
 
 export type SelectOption = {
-  id: string;
+  id: string | number;
   name: string;
+  tag?: TagProps["type"];
+  options?: SelectOption[];
 };
 
 type TypeResult = {
@@ -17,4 +20,12 @@ export const getStatusOptionsAPI = () => {
 
 export const getTypeOptionsAPI = () => {
   return http.request<TypeResult>("post", "/type/list");
+};
+
+export const getDayOptionsAPI = () => {
+  return http.request<TypeResult>("post", "/day/list");
+};
+
+export const getDayGroupOptionsAPI = () => {
+  return http.request<TypeResult>("post", "/day/group/list");
 };
