@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 import type { SelectOption } from "@/api/selectOptions";
 import type { TagProps } from "element-plus";
 
-// 构造数据方法
+// 构造简单下拉数据
 const tagsType = ["primary", "success", "info", "warning", "danger"];
 const setOption = (list, tag) => {
   let options = [];
@@ -18,6 +18,34 @@ const setOption = (list, tag) => {
     options.push(obj);
   }
   return options;
+};
+
+// 构造随机下拉数组
+let optionNameRandom: SelectOption[] = [];
+const setOptionRandom = type => {
+  for (let i = 0; i < 100; i++) {
+    const obj: SelectOption = {
+      id: faker.number.int({ min: 100000, max: 999999 }),
+      name: ""
+    };
+    if (type === "name") {
+      obj.name = faker.person.fullName();
+      optionNameRandom.push(obj);
+    }
+  }
+};
+setOptionRandom("name");
+// 过滤生成数据
+const getOptionRandom = (type, name?: string) => {
+  const targetOption = type === "name" ? optionNameRandom : [];
+  const filterOption: SelectOption[] = [];
+  if (name) {
+    for (const item of targetOption) {
+      if (item.name.indexOf(name) !== -1) filterOption.push(item);
+    }
+    return filterOption;
+  }
+  return targetOption;
 };
 
 // 模拟类型接口
@@ -81,6 +109,16 @@ export default defineFakeRoute([
             options: setOption(dayList.slice(5, 7), false)
           }
         ]
+      };
+    }
+  },
+  {
+    url: "/members/list",
+    method: "post",
+    response: ({ body }) => {
+      return {
+        success: true,
+        data: getOptionRandom("name", body.name)
       };
     }
   }

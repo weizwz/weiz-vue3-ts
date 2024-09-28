@@ -20,8 +20,8 @@
     >
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="基础用法" prop="activeTime">
-            <el-select v-model="ruleForm.activeTime" placeholder="请选择">
+          <el-form-item label="基础用法" prop="createDate">
+            <el-select v-model="ruleForm.createDate" placeholder="请选择">
               <el-option value="1" label="星期一" />
               <el-option value="2" label="星期二" />
               <el-option value="3" label="星期三" />
@@ -33,9 +33,9 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="基础多选" prop="type">
+          <el-form-item label="基础多选" prop="activeTime">
             <el-select
-              v-model="ruleForm.type"
+              v-model="ruleForm.activeTime"
               multiple
               clearable
               placeholder="请选择"
@@ -52,8 +52,8 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="自定义模板" prop="tags">
-            <el-select v-model="ruleForm.tags" clearable placeholder="请选择">
+          <el-form-item label="自定义模板" prop="period">
+            <el-select v-model="ruleForm.period" clearable placeholder="请选择">
               <el-option
                 v-for="(item, index) of dayList"
                 :key="item.id"
@@ -71,8 +71,8 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="分组下拉" prop="members">
-            <el-select v-model="ruleForm.members" placeholder="请选择">
+          <el-form-item label="分组下拉" prop="funds">
+            <el-select v-model="ruleForm.funds" placeholder="请选择">
               <el-option-group
                 v-for="group in dayGroupList"
                 :key="group.id"
@@ -85,6 +85,53 @@
                   :value="item.id"
                 />
               </el-option-group>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="搜索下拉" prop="type">
+            <el-select
+              v-model="ruleForm.type"
+              filterable
+              reserve-keyword
+              multiple
+              clearable
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item of typeList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="远程搜索" prop="members">
+            <el-select
+              v-model="ruleForm.members"
+              filterable
+              reserve-keyword
+              multiple
+              clearable
+              remote
+              collapse-tags
+              collapse-tags-tooltip
+              placeholder="请选择"
+              :remote-method="getMembersOptions"
+              :loading="getMemberLoading"
+            >
+              <el-option
+                v-for="item of membersList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
         </el-col>
@@ -106,6 +153,8 @@ import { ProjectDTO, ProjectAPI } from "@/api/project";
 import {
   getDayGroupOptionsAPI,
   getDayOptionsAPI,
+  getTypeOptionsAPI,
+  getMembersOptionsAPI,
   SelectOption
 } from "@/api/selectOptions";
 
@@ -115,22 +164,26 @@ defineOptions({
 
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive<ProjectDTO>({
+  createDate: "",
   activeTime: [],
+  period: undefined,
+  funds: undefined,
   type: [],
-  tags: [],
-  members: [],
-  subject: []
+  members: []
 });
 
 //#start 表单校验
 const rules = reactive<FormRules<ProjectDTO>>({
-  members: [{ required: true, message: "请选择", trigger: "change" }]
+  funds: [{ required: true, message: "请选择", trigger: "change" }]
 });
 //#end
 
 //#start 动态下拉数据
 const dayList = ref<SelectOption[]>([]);
+const typeList = ref<SelectOption[]>([]);
 const dayGroupList = ref<SelectOption[]>([]);
+const membersList = ref<SelectOption[]>([]);
+const getMemberLoading = ref(false);
 const getDayOptions = () => {
   getDayOptionsAPI().then(data => {
     if (data) {
@@ -144,6 +197,31 @@ const getDayGroupOptions = () => {
       dayGroupList.value = data.data;
     }
   });
+};
+const getTypeOptions = () => {
+  getTypeOptionsAPI().then(data => {
+    if (data) {
+      typeList.value = data.data;
+    }
+  });
+};
+const getMembersOptions = (query: string) => {
+  if (query) {
+    getMemberLoading.value = true;
+    getMembersOptionsAPI({ name: query })
+      .then(data => {
+        getMemberLoading.value = false;
+        if (data) {
+          membersList.value = data.data;
+        }
+      })
+      .catch(() => {
+        getMemberLoading.value = false;
+        membersList.value = [];
+      });
+  } else {
+    membersList.value = [];
+  }
 };
 //#end
 
@@ -169,5 +247,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
 onMounted(() => {
   getDayOptions();
   getDayGroupOptions();
+  getTypeOptions();
 });
 </script>
