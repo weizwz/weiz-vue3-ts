@@ -129,6 +129,11 @@
   }
 }
 
+/* 提示框宽度不超过容器80%，避免超出父级出现滚动条 */
+.el-popper {
+  max-width: 80%;
+}
+
 /* 自定义菜单搜索样式 */
 .pure-search-dialog {
   @media screen and (width > 760px) and (width <= 940px) {
