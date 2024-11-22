@@ -5,7 +5,7 @@ export default defineFakeRoute([
   {
     url: "/project/submit",
     method: "post",
-    timeout: 2000,
+    timeout: 1000,
     response: ({ body }) => {
       return {
         success: true,

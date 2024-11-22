@@ -33,3 +33,7 @@ export const getDayGroupOptionsAPI = () => {
 export const getMembersOptionsAPI = (data?: object) => {
   return http.request<TypeResult>("post", "/members/list", { data });
 };
+
+export const getProjectOptionsAPI = () => {
+  return http.request<TypeResult>("post", "/project/list");
+};

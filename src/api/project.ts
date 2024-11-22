@@ -1,5 +1,11 @@
 import { http } from "@/utils/http";
 
+export type Department = {
+  id: number;
+  name: string;
+  parentId?: number;
+};
+
 // 数据交互模型
 export type ProjectDTO = {
   // 名称
@@ -40,6 +46,8 @@ export type ProjectDTO = {
   members?: string[];
   // 所属科目
   subject?: string[];
+  // 部门
+  department?: Department[];
   // 备注
   remark?: string;
 };
@@ -67,6 +75,7 @@ export type ProjectVO = {
   owner: string;
   members: string[];
   subject: string[];
+  department: Department[];
   remark: string;
 };
 

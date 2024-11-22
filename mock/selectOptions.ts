@@ -121,5 +121,44 @@ export default defineFakeRoute([
         data: getOptionRandom("name", body.name)
       };
     }
+  },
+  {
+    url: "/project/list",
+    method: "post",
+    response: () => {
+      return {
+        success: true,
+        data: [
+          {
+            id: 1,
+            name: "顶级菜单1"
+          },
+          {
+            id: 11,
+            name: "菜单1-1",
+            parentId: 1
+          },
+          {
+            id: 12,
+            name: "菜单1-2",
+            parentId: 1
+          },
+          {
+            id: 121,
+            name: "菜单1-2-1",
+            parentId: 12
+          },
+          {
+            id: 2,
+            name: "顶级菜单2"
+          },
+          {
+            id: 21,
+            name: "菜单2-1",
+            parentId: 2
+          }
+        ]
+      };
+    }
   }
 ]);

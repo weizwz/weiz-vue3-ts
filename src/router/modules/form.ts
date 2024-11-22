@@ -72,6 +72,14 @@ export default {
           meta: {
             title: "选择框"
           }
+        },
+        {
+          path: "/form/elements/tree",
+          name: "form_elements_tree",
+          component: () => import("@/views/form/elements/tree.vue"),
+          meta: {
+            title: "树形框"
+          }
         }
       ]
     }
