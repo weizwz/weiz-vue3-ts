@@ -1,0 +1,37 @@
+{
+	// Place your weiz-vue3-ts 工作区 snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+	// Placeholders with the same ids are connected.
+	// Example:
+	"vue3本项目组件模版": {
+    "scope": "vue",
+    "prefix": "Vue3.3+",
+		"body": [
+      "<template>",
+      "\t<el-card>",
+      "\t\t<template #header>",
+      "\t\t\t<div class=\"font-medium\">xxx</div>",
+      "\t\t\t<el-link",
+      "\t\t\t\tclass=\"mt-2\"",
+      "\t\t\t\thref=\"https://github.com/weizwz/weiz-vue3-ts/blob/main/src/views/xxx/xxx.vue\"",
+      "\t\t\t\ttarget=\"_blank\"",
+      "\t\t\t>",
+      "\t\t\t\t代码位置 src/views/xxx/xxx.vue",
+      "\t\t\t</el-link>",
+      "\t\t</template>",
+      "\t</el-card>",
+      "</template>\n",
+      "<script setup lang=\"ts\">",
+      "defineOptions({",
+      "\tname: \"xxx\"",
+      "});",
+      "</script>\n",
+      "<style lang=\"scss\" scoped></style>",
+      "$2"
+		],
+    "description": "vue3本项目组件模版"
+	}
+}
